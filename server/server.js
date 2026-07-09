@@ -8,7 +8,7 @@ const startServer = async () => {
     try {
         //  update this once the db is working
         await pool.query('SELECT NOW()')
-         console.log("the db is connected")
+        console.log("connected to the database")
          const server= app.listen(PORT, ()=> {
             console.log(`Server is up on port: ${PORT}`)
          })
@@ -17,7 +17,6 @@ const startServer = async () => {
             server.close(() => console.log("process terminated"))
          })
     } catch (error) {
-        console.error("Database connection failed")
         console.error(error)
         process.exit(1);
     }
