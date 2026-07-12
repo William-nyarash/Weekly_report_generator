@@ -9,13 +9,13 @@ const userRoutes = require('./routes/teacher.routes')
 const reportRoutes = require('./routes/report.routes')
 app.use(morgan('combined'))
 app.use(express.json({}))
-app.use(express.urlencoded({extended: true}))
-app.use(cors({
-    origin: ['http://localhost:3002', 'http://localhost:5173']}))
+app.use(express.urlencoded({ extended: true }))
+ 
+// app.use(cors({
+//     origin: ['http://localhost:3002', 'http://localhost:5173']}))
 
 app.use('/gti/teacher', userRoutes)
 app.use('/gti/reports', reportRoutes)
-
 app.get('/status', (request, response) => {
     response.status(200).json({ success: true, message: 'Server is running', timestamp: new Date().toISOString()})
 })
