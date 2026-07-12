@@ -1,10 +1,10 @@
 const express = require("express")
-const router = express.Router()
+const router = express.Router({ mergeParams: true})
 
 const attendanceController = require('../controllers/attendance.controller')
 
 router.route('/')
-.get(attendanceController.getWeekAttendace)
+.get(attendanceController.getWeekAttendance)
 .post(attendanceController.createWeekAttendance)
 .put(attendanceController.updateWeekAttendance)
 
