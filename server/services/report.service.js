@@ -10,7 +10,8 @@ const createReport = async (data) => {
 const getReport = async (id) => {
     return await Report.getReport(id)
 }
-const updateReport = async () => {
+
+const updateReport = async (id, data) => {
     return await Report.updateReport(id, data)
 }
 module.exports = {
