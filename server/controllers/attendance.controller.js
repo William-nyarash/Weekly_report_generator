@@ -2,12 +2,12 @@ const attendanceService = require("../services/attendance.service");
 
 const createWeekAttendance = async (req, res, next) => {
     try {
-
+        const data = req.body.attendance
+        console.log("the report Id is ", req.params)
         const attendance = await attendanceService.createWeekAttendance(
-            req.params.reportId,
-            req.body.attendance
+            req.params.id,
+            data
         );
-
         res.status(201).json({
             status: "success",
             results: attendance.length,
@@ -17,13 +17,14 @@ const createWeekAttendance = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+
 };
 
 const getWeekAttendance = async (req, res, next) => {
     try {
 
         const attendance = await attendanceService.getWeekAttendance(
-            req.params.reportId
+            req.params.id
         );
 
         res.status(200).json({
@@ -36,6 +37,7 @@ const getWeekAttendance = async (req, res, next) => {
         next(err);
     }
 };
+
 
 const updateWeekAttendance = async (req, res, next) => {
     try {
