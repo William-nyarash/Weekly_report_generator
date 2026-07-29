@@ -55,7 +55,6 @@ const createReport = async (data) => {
 }
 
 const updateReport = async (id, data) => {
-    console.log("the parameter ", id)
     const {
         teacher_id,
         week_start,
@@ -97,10 +96,89 @@ const updateReport = async (id, data) => {
 
     return result.rows[0]
 
-} 
+}
+
+const generateReportDetails = async (reportId)=> {
+
+    const sqlQuery =  `
+    SELECT 
+    r.id as report_id,
+    r.week_start,
+    r.week_end,
+    r.tutors_class_attendance,
+    r.new_admissions_and_dropouts,
+    r.weeks_activity_completion,
+    r.weeks_activity_not_completed,
+    r.aobs,
+    r.assessment,
+    r.remarks,
+    t.full_name as teacher_name,
+    t.course,
+    t.level,
+    a.day_name,
+    a.present_students,
+    a.absent_students,
+    a.teacher_comment as daily_comment
+FROM reports r
+JOIN teachers t ON r.teacher_id = t.id
+LEFT JOIN attendance a ON r.id = a.report_id
+WHERE r.id = $1
+ORDER BY 
+    CASE a.day_name
+        WHEN 'Monday' THEN 1
+        WHEN 'Tuesday' THEN 2
+        WHEN 'Wednesday' THEN 3
+        WHEN 'Thursday' THEN 4
+        WHEN 'Friday' THEN 5
+    END;`
+    
+    try{
+        const report = await pool.query(sqlQuery, [reportId])
+
+        if(report.length === 0 ) {
+            throw new Error("Report not found")
+        }
+
+        const row = report.rows[0]
+        const reportData = {
+            id: row.report_id,
+            weekStart: row.week_start,
+            weekEnd: row.week_end,
+            tutorClassAttendance: row.tutors_class_attendance,
+            newAdmissionsAndDropouts: row.new_admissions_and_dropouts,
+            weeksActivityCompletion: row.weeks_activity_completion,
+            weeksActivityNotCompleted: row.weeks_activity_not_completed,
+            aobs: row.aobs,
+            assessment: row.assessment,
+            remarks: row.remarks,
+            teacher: {
+                name: row.teacher_name,
+                course: row.course,
+                level: row.level
+            },
+            attendance: []
+        };
+        report.rows.forEach(row => {
+            if (row.day_name) {
+                reportData.attendance.push({
+                    day: row.day_name,
+                    present: row.present_students,
+                    absent: row.absent_students,
+                    comment: row.daily_comment
+                });
+            }
+        });
+        return reportData
+    }catch(error) {
+        console.error("Error generating report:", error.message);
+        throw error;
+    }
+
+}
 module.exports = {
     getAllReports,
     updateReport,
     createReport,
+    generateReportDetails,
     getReport,   
 }
