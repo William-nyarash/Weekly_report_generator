@@ -1,3 +1,4 @@
+const { read } = require("pdfkit");
 const pool = require("../config/db.config")
 
 const getAll = async () => {
@@ -42,8 +43,18 @@ const updateTeacher = async (id, data) => {
     return result.rows[0];
 }
 
+const getTeacherById = async (id) => {
+    const sqlQuery = `
+        SELECT * FROM   teachers
+        where id=$1`
+
+    const results = await pool.query(sqlQuery,[id])
+
+    return results.rows[0]
+}
 module.exports = {
     getAll,
     createTeacher,
-    updateTeacher
+    updateTeacher,
+    getTeacherById
 };
