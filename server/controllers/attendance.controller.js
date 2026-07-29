@@ -2,35 +2,53 @@ const attendanceService = require("../services/attendance.service");
 
 const createWeekAttendance = async (req, res, next) => {
     try {
-        const data = req.body.attendance
-        console.log("the report Id is ", req.params)
-        const attendance = await attendanceService.createWeekAttendance(
-            req.params.id,
-            data
+        const { reportId } = req.params;
+        const { attendance } = req.body;
+
+        console.log("Report ID:", reportId);
+        console.log("Attendance:", attendance);
+        console.log("Is Array?", Array.isArray(attendance));
+
+        if (!Array.isArray(attendance)) {
+            return res.status(400).json({
+                status: "fail",
+                message: "'attendance' must be an array.",
+            });
+        }
+
+        const result = await attendanceService.createWeekAttendance(
+            reportId,
+            attendance
         );
-        res.status(201).json({
+
+        return res.status(201).json({
             status: "success",
-            results: attendance.length,
-            data: attendance
+            results: result.length,
+            data: result,
         });
 
     } catch (err) {
+        if (err.message === "Attendance already exists.") {
+            return res.status(409).json({
+                status: "fail",
+                message: err.message,
+            });
+        }
+
         next(err);
     }
-
 };
 
 const getWeekAttendance = async (req, res, next) => {
     try {
+        const { reportId } = req.params;
 
-        const attendance = await attendanceService.getWeekAttendance(
-            req.params.id
-        );
+        const attendance = await attendanceService.getWeekAttendance(reportId);
 
-        res.status(200).json({
+        return res.status(200).json({
             status: "success",
             results: attendance.length,
-            data: attendance
+            data: attendance,
         });
 
     } catch (err) {
@@ -38,18 +56,27 @@ const getWeekAttendance = async (req, res, next) => {
     }
 };
 
-
 const updateWeekAttendance = async (req, res, next) => {
     try {
+        const { reportId } = req.params;
+        const { attendance } = req.body;
 
-        const attendance = await attendanceService.updateWeekAttendance(
-            req.params.reportId,
-            req.body.attendance
+        if (!Array.isArray(attendance)) {
+            return res.status(400).json({
+                status: "fail",
+                message: "'attendance' must be an array.",
+            });
+        }
+
+        const result = await attendanceService.updateWeekAttendance(
+            reportId,
+            attendance
         );
 
-        res.status(200).json({
+        return res.status(200).json({
             status: "success",
-            data: attendance
+            results: result.length,
+            data: result,
         });
 
     } catch (err) {
@@ -60,5 +87,5 @@ const updateWeekAttendance = async (req, res, next) => {
 module.exports = {
     createWeekAttendance,
     getWeekAttendance,
-    updateWeekAttendance
+    updateWeekAttendance,
 };
