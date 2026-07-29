@@ -1,9 +1,8 @@
 const Teacher = require('../models/Teacher.model')
 
-const createTeacher = async (request, response ) => {
+const createTeacher = async (request, response, next ) => {
     try{
         const { full_name, course, level } = request.body
-
         if(!full_name || !course || !level) {
             return response.status(400).json({
                 status: 'fail',
@@ -21,7 +20,7 @@ const createTeacher = async (request, response ) => {
         })
 
     } catch(err) {
-        console.error(err.message)
+        next(err)
     }
 }
 const getTeachers = async ( request, response ) => {
@@ -38,9 +37,10 @@ const getTeachers = async ( request, response ) => {
 }
 
 const editTeacher = async (request , response ) => {
+    const { id } = request.params
     try{
         const teacher = await Teacher.updateTeacher(
-            request.params.id,
+            id,
             request.body
         )
         response.status(200).json({
@@ -48,12 +48,13 @@ const editTeacher = async (request , response ) => {
             data: teacher
         })
     } catch(err) {
-        console.error(err.message)
+        next(err)
     }
 }
 const getTeacher = async (request, response ) => {
+    const { id } = request.params
   try{
-    const teacher = await Teacher.getById(request.params.id)
+    const teacher = await Teacher.getTeacherById( id)
     if(!teacher) {
         return response.status(404).json({
             status: 'fail',
@@ -69,13 +70,14 @@ const getTeacher = async (request, response ) => {
   }
 }
 
-const deleteTeacher =async (request , response ) => {
+const deleteTeacher =async (request , response, next ) => {
+    const { id }  = request.params
   try {
-    await Teacher.remove(request.params.id)
+    await Teacher.remove(id)
     
     response.status(204).send()
   } catch(error) {
-    console.log(err.message)
+    next(error)
   }
 }
 module.exports = {
