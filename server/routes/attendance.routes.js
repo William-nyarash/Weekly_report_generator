@@ -1,6 +1,5 @@
 const express = require("express")
-const router = express.Router({ mergeParams: true})
-
+const router = express.Router({mergeParams: true})
 const attendanceController = require('../controllers/attendance.controller')
 
 router.route('/')
