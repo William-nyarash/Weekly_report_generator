@@ -11,6 +11,7 @@ router.route('/')
 router.route('/:id')
     .put(updateReport)
     .get(getReport)
-router.use('/:id/attendance', attendanceRoutes)
+router.use('/:reportId/attendance', attendanceRoutes)
+
 
 module.exports = router;
