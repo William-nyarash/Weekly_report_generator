@@ -1,4 +1,6 @@
 const { generateReportDetails } = require("../models/report.models"); 
+const generateWeeklyReport = require("../utils/generatePdf");
+const reportService = require("../services/report.service")
 
 const generateDocument = async (req, res) => {
     try {
@@ -20,4 +22,17 @@ const generateDocument = async (req, res) => {
 
 };
 
-module.exports = generateDocument
+const downloadReport = async (req , res, next ) => {
+    const { id } = req.params
+    try {
+        const report = await reportService.getReportDetails(id)
+        generateWeeklyReport(report, res)
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = {
+    generateDocument,
+    downloadReport 
+}
