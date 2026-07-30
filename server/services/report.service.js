@@ -1,3 +1,4 @@
+const { get } = require('../app');
 const Report = require('../models/report.models')
 
 const getAllReports = async () => {
@@ -14,9 +15,17 @@ const getReport = async (id) => {
 const updateReport = async (id, data) => {
     return await Report.updateReport(id, data)
 }
+const getReportDetails = async (id ) =>{
+        const report = await Report.generateReportDetails(id)
+        if(!report ) {
+            throw new Error("NO report found")
+        }
+        return report
+}
 module.exports = {
     getAllReports,
     createReport,
     updateReport,
+    getReportDetails,
     getReport
 }
