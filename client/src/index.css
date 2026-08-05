@@ -1,1 +1,27 @@
-import "@tailwindcss/vite"
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #FF5733;
+  --color-brand-hover: #E04E2E;
+  --color-brand-strong: #C73E1D;
+  --color-brand-soft: #FFF0ED;
+  --color-brand-medium: #FF8C73;
+  --color-brand-glow: rgba(255, 87, 51, 0.25);
+  --color-heading: #111111;
+  --color-body: #4B5563;
+  --color-muted: #9CA3AF;
+  --color-bg-white: #FFFFFF;
+  --color-bg-surface: #F9FAFB;
+  --color-border-light: #E5E7EB;
+  --color-border-medium: #D1D5DB;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --radius-base: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-brand: 0 4px 14px 0 var(--color-brand-glow);
+}
