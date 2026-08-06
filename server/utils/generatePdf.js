@@ -244,33 +244,33 @@ const generateWeeklyReport = (report, res) => {
     doc .font("Helvetica")   
         .text(safeText(`${admissions}`,"None"), MARGIN);
 
-    doc.moveDown();
+    doc.moveDown(2.5);
 
     doc.font("Helvetica-Bold").text("Activities Completed this week", MARGIN);
     doc.font("Helvetica").text(
         safeText(report.weeksActivityCompletion, "None"), MARGIN);
 
-    doc.moveDown();
+    doc.moveDown(2.5);
 
     doc.font("Helvetica-Bold").text("Activities yet to be Completed", MARGIN);
     doc.font("Helvetica").text(
         safeText(report.weeksActivityNotCompleted, "None")
     );
 
-    doc.moveDown();
+    doc.moveDown(2.5);
     doc.font("Helvetica-Bold").text("Issues for immediate attention", MARGIN);
     doc.font("Helvetica").text(
         safeText(report.aobs, "None")
     );
 
-    doc.moveDown();
+    doc.moveDown(2.5);
 
     doc.font("Helvetica-Bold").text("Exams/Cats", MARGIN);
     doc.font("Helvetica").text(
         safeText(report.assessment, "None")
     );
 
-    doc.moveDown();
+    doc.moveDown(2.5);
 
     doc.font("Helvetica-Bold").text("Remarks", MARGIN);
     doc.font("Helvetica").text(
