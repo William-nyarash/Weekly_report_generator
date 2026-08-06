@@ -40,7 +40,6 @@ const getReport = async ( request, response, next ) => {
 
 const getReports = async (request, response, next) => {
     try {
-
         const reports = await reportService.getAllReports();
         if(!reports) {
             return response.status(404).json({
@@ -59,7 +58,6 @@ const getReports = async (request, response, next) => {
 }
 const updateReport = async ( request, response, next ) => {
     try{
-        const report = await reportService.updateReport(request.params.id, request.body)
         if(!report){
             return response.status(404).json({
                 status: 'fail',

@@ -9,6 +9,7 @@ const createTeacher = async (request, response, next ) => {
                 message: "All fields are required"
             })
         } 
+        console.log("the teacher is ", request.body)
        const teacher = await Teacher.createTeacher({
          full_name,
          course,
