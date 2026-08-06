@@ -38,10 +38,7 @@ export default function HomePage() {
       setLoading(true);
 
       const response = await createTeacher(teacher);
-
-      const teacherId =
-        response?.data?.data?.id ??
-        response?.id;
+      const teacherId =response?.data?.data?.id ?? response?.id;
 
       navigate(`/teacher/${teacherId}/report`, 
     {
