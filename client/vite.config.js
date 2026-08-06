@@ -15,9 +15,8 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/gti": {
-          target: env.PROD_SERVER,
+          target: env.VITE_BASE_URL.replace("/gti", ""),
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/gti/, ""),
         },
       },
     },
