@@ -18,6 +18,9 @@ export default function AttendancePage() {
   const location = useLocation()
   const { reportId } = useParams();
 
+console.log(location.state);
+console.log({ teacherName, level });
+
   const { submitAttendance, loading } = useReport();
   const { teacherName, level } = location.state || {};
   const [attendance, setAttendance] = useState(
