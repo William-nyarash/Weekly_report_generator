@@ -51,7 +51,14 @@ export default function ReportPage() {
       return;
     }
 
-    navigate(`/report/${result.data.id}/attendance`);
+    navigate(`/report/${result.data.id}/attendance`,
+      {
+        state: {
+          teacherName: result.data?.teacher.name,
+          level: result?.data?.teacher.level
+        },
+      }
+    );
   };
 
   return (
